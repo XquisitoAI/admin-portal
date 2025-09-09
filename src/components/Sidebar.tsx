@@ -1,5 +1,8 @@
+'use client'
+
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { HomeIcon, BookOpenIcon, TagIcon, TrendingUpIcon, SettingsIcon, LogOutIcon } from 'lucide-react';
 interface SidebarProps {
   mobile: boolean;
@@ -8,6 +11,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   mobile
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const pathname = usePathname();
   // No aplicamos la lógica de contracción en móvil
   const handleMouseEnter = () => {
     if (!mobile) setIsExpanded(true);
@@ -34,46 +38,36 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
       {/* Navigation */}
       <nav className="mt-6 flex-1 px-3 bg-white space-y-2">
-        <NavLink to="/" className={({
-        isActive
-      }) => `group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${isActive ? 'bg-custom-green-100 text-custom-green-900 shadow-sm' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}>
+        <Link href="/" className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${pathname === '/' ? 'bg-custom-green-100 text-custom-green-900 shadow-sm' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}>
           <HomeIcon className={`flex-shrink-0 h-5 w-5 ${mobile || isExpanded ? 'mr-3 text-custom-green-600' : 'mx-auto text-gray-500'} transition-all duration-200`} />
           <span className={`${!mobile && !isExpanded ? 'hidden' : 'block'} transition-opacity duration-200`}>
             Inicio
           </span>
-        </NavLink>
-        <NavLink to="/menu" className={({
-        isActive
-      }) => `group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${isActive ? 'bg-custom-green-100 text-custom-green-900 shadow-sm' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}>
+        </Link>
+        <Link href="/menu" className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${pathname === '/menu' ? 'bg-custom-green-100 text-custom-green-900 shadow-sm' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}>
           <BookOpenIcon className={`flex-shrink-0 h-5 w-5 ${mobile || isExpanded ? 'mr-3 text-custom-green-600' : 'mx-auto text-gray-500'} transition-all duration-200`} />
           <span className={`${!mobile && !isExpanded ? 'hidden' : 'block'} transition-opacity duration-200`}>
             Menú
           </span>
-        </NavLink>
-        <NavLink to="/promotions" className={({
-        isActive
-      }) => `group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${isActive ? 'bg-custom-green-100 text-custom-green-900 shadow-sm' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}>
+        </Link>
+        <Link href="/promotions" className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${pathname === '/promotions' ? 'bg-custom-green-100 text-custom-green-900 shadow-sm' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}>
           <TagIcon className={`flex-shrink-0 h-5 w-5 ${mobile || isExpanded ? 'mr-3 text-custom-green-600' : 'mx-auto text-gray-500'} transition-all duration-200`} />
           <span className={`${!mobile && !isExpanded ? 'hidden' : 'block'} transition-opacity duration-200`}>
             Dine
           </span>
-        </NavLink>
-        <NavLink to="/rewards" className={({
-        isActive
-      }) => `group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${isActive ? 'bg-custom-green-100 text-custom-green-900 shadow-sm' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}>
+        </Link>
+        <Link href="/rewards" className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${pathname === '/rewards' ? 'bg-custom-green-100 text-custom-green-900 shadow-sm' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}>
           <TrendingUpIcon className={`flex-shrink-0 h-5 w-5 ${mobile || isExpanded ? 'mr-3 text-custom-green-600' : 'mx-auto text-gray-500'} transition-all duration-200`} />
           <span className={`${!mobile && !isExpanded ? 'hidden' : 'block'} transition-opacity duration-200`}>
             Scala
           </span>
-        </NavLink>
-        <NavLink to="/settings" className={({
-        isActive
-      }) => `group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${isActive ? 'bg-custom-green-100 text-custom-green-900 shadow-sm' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}>
+        </Link>
+        <Link href="/settings" className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${pathname === '/settings' ? 'bg-custom-green-100 text-custom-green-900 shadow-sm' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}>
           <SettingsIcon className={`flex-shrink-0 h-5 w-5 ${mobile || isExpanded ? 'mr-3 text-custom-green-600' : 'mx-auto text-gray-500'} transition-all duration-200`} />
           <span className={`${!mobile && !isExpanded ? 'hidden' : 'block'} transition-opacity duration-200`}>
             Configuración
           </span>
-        </NavLink>
+        </Link>
         <div className="pt-4 mt-6 border-t border-gray-200">
           <button onClick={() => alert('Sesión cerrada')} className="w-full flex items-center px-3 py-3 text-sm font-medium rounded-lg text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200">
             <LogOutIcon className={`flex-shrink-0 h-5 w-5 text-red-500 ${mobile || isExpanded ? 'mr-3' : 'mx-auto'}`} />

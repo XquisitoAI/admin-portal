@@ -40,6 +40,7 @@ const initialPackages = [{
 }];
 const PromotionsManagement = () => {
   const [packages, setPackages] = useState(initialPackages);
+  const [packageOrder, setPackageOrder] = useState(initialPackages.sort((a, b) => b.active - a.active));
   const [showTapOrderDashboard, setShowTapOrderDashboard] = useState(false);
   const [showFlexBillDashboard, setShowFlexBillDashboard] = useState(false);
   const [showFoodHallDashboard, setShowFoodHallDashboard] = useState(false);
@@ -48,10 +49,17 @@ const PromotionsManagement = () => {
   const [showInactiveServiceModal, setShowInactiveServiceModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const handleToggleActive = id => {
-    setPackages(packages.map(pkg => pkg.id === id ? {
+    // Cambiar el estado del paquete
+    const updatedPackages = packages.map(pkg => pkg.id === id ? {
       ...pkg,
       active: !pkg.active
-    } : pkg));
+    } : pkg);
+    
+    setPackages(updatedPackages);
+    
+    // Actualizar el orden inmediatamente sin animaciones
+    const newSorted = updatedPackages.sort((a, b) => b.active - a.active);
+    setPackageOrder(newSorted);
   };
   const handlePackageClick = pkg => {
     setSelectedPackage(pkg);
@@ -83,46 +91,47 @@ const PromotionsManagement = () => {
   const getIcon = iconName => {
     switch (iconName) {
       case 'smartphone':
-        return <SmartphoneIcon className="h-8 w-8 text-custom-green-600 group-hover:text-custom-green-600 transition-colors duration-200" />;
+        return <SmartphoneIcon className="h-7 w-7 text-custom-green-600 group-hover:text-custom-green-600 transition-colors duration-200" />;
       case 'receipt':
-        return <ReceiptIcon className="h-8 w-8 text-custom-green-600 group-hover:text-custom-green-600 transition-colors duration-200" />;
+        return <ReceiptIcon className="h-7 w-7 text-custom-green-600 group-hover:text-custom-green-600 transition-colors duration-200" />;
       case 'layout-grid':
-        return <LayoutGridIcon className="h-8 w-8 text-custom-green-600 group-hover:text-custom-green-600 transition-colors duration-200" />;
+        return <LayoutGridIcon className="h-7 w-7 text-custom-green-600 group-hover:text-custom-green-600 transition-colors duration-200" />;
       case 'scan-line':
-        return <ScanLineIcon className="h-8 w-8 text-custom-green-600 group-hover:text-custom-green-600 transition-colors duration-200" />;
+        return <ScanLineIcon className="h-7 w-7 text-custom-green-600 group-hover:text-custom-green-600 transition-colors duration-200" />;
       case 'shopping-cart':
-        return <ShoppingCartIcon className="h-8 w-8 text-custom-green-600 group-hover:text-custom-green-600 transition-colors duration-200" />;
+        return <ShoppingCartIcon className="h-7 w-7 text-custom-green-600 group-hover:text-custom-green-600 transition-colors duration-200" />;
       default:
-        return <ShoppingBagIcon className="h-8 w-8 text-custom-green-600 group-hover:text-custom-green-600 transition-colors duration-200" />;
+        return <ShoppingBagIcon className="h-7 w-7 text-custom-green-600 group-hover:text-custom-green-600 transition-colors duration-200" />;
     }
   };
   return <div className="w-full">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">
-            Gestión de Paquete Dine
+          <h1 className="text-2xl font-semibold text-gray-900 mt-5 mb-2">
+            Gestión de Dine
           </h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="text-sm text-gray-500">
             Gestiona los servicios clave de tu restaurante para ofrecer una
             operación más eficiente y moderna
           </p>
         </div>
       </div>
       <div className="mt-6 flex flex-col space-y-4">
-        {packages.map(pkg => <div key={pkg.id} className={`group bg-white hover:bg-[#E9F2F2] overflow-hidden shadow rounded-lg border ${pkg.active ? 'border-custom-green-200' : 'border-gray-200'} hover:border-[#D6E6E6] transition-all duration-200 ease-out hover:shadow-md cursor-pointer`} onClick={() => handlePackageClick(pkg)}>
-            <div className="p-5 flex">
-              <div className={`flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-full ${pkg.active ? 'bg-custom-green-100' : 'bg-gray-100'} group-hover:bg-white transition-colors duration-200`}>
+        {packageOrder.map((pkg) => {
+          return <div key={pkg.id} className={`group bg-white hover:bg-[#E9F2F2] overflow-hidden shadow rounded-lg border ${pkg.active ? 'border-custom-green-200' : 'border-gray-200'} hover:border-[#D6E6E6] hover:shadow-md cursor-pointer transition-all duration-200 ease-out hover:scale-[1.01]`} onClick={() => handlePackageClick(pkg)}>
+            <div className="p-4 flex">
+              <div className={`flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-full ${pkg.active ? 'bg-custom-green-100' : 'bg-gray-100'} group-hover:bg-white transition-colors duration-200`}>
                 {getIcon(pkg.icon)}
               </div>
-              <div className="ml-5 flex-1">
-                <h3 className="text-lg font-medium text-gray-900 group-hover:text-gray-900 transition-colors duration-200">
+              <div className="ml-4 flex-1">
+                <h3 className="text-base font-medium text-gray-900 group-hover:text-gray-900 transition-colors duration-200">
                   {pkg.name}
                 </h3>
-                <p className="mt-2 text-sm text-gray-500 group-hover:text-gray-500 transition-colors duration-200">
+                <p className="mt-1.5 text-sm text-gray-500 group-hover:text-gray-500 transition-colors duration-200 line-clamp-2">
                   {pkg.description}
                 </p>
               </div>
-              <div className="ml-4 flex items-center self-end">
+              <div className="ml-3 flex items-center self-end">
                 <button onClick={e => {
               e.stopPropagation();
               handleToggleActive(pkg.id);
@@ -131,7 +140,8 @@ const PromotionsManagement = () => {
                 </button>
               </div>
             </div>
-          </div>)}
+          </div>;
+        })}
       </div>
       {/* Dashboard Modals */}
       <TapOrderDashboardModal isOpen={showTapOrderDashboard} onClose={() => setShowTapOrderDashboard(false)} />

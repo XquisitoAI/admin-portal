@@ -341,169 +341,292 @@ const EmailPreview = ({
   const timeString = `${hours}:${minutes}`;
   return <div className="fixed inset-0 overflow-y-auto z-50 flex items-center justify-center">
       <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-[2px]" onClick={onClose}></div>
-      <div className="relative bg-white rounded-2xl max-w-md w-full mx-auto p-6 shadow-2xl">
-        <button onClick={onClose} className="absolute top-3 right-3 text-gray-400 hover:text-gray-500 z-10 p-2 rounded-full hover:bg-gray-100 transition-colors">
+      <div className="relative w-full max-w-[375px] mx-auto">
+        {/* Close button positioned outside frame */}
+        <button onClick={onClose} className="absolute -top-8 right-4 text-white hover:text-gray-300 z-50 p-2 rounded-full hover:bg-white/20 transition-colors">
           <XIcon className="h-6 w-6" />
         </button>
 
         {/* Template name display */}
-        {campaign.templateName && <div className="mb-4 text-center">
-            <span className="inline-block bg-custom-green-100 text-custom-green-800 px-3 py-1 rounded-full text-sm font-medium">
+        {campaign.templateName && <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-40">
+            <span className="inline-block bg-white/90 text-gray-800 px-3 py-1 rounded-full text-sm font-medium shadow-lg">
               {campaign.templateName}
             </span>
           </div>}
 
-        {/* iPhone mockup */}
+        {/* Mobile frame with image */}
         <div className="relative mx-auto w-full max-w-[375px]">
-          <div className="bg-black rounded-[55px] p-2 shadow-xl overflow-hidden border-8 border-black">
-            {/* Dynamic Island */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-50 bg-black w-[30%] h-[30px] rounded-b-[18px] flex items-center justify-center">
-              <div className="absolute w-[10px] h-[10px] rounded-full bg-gray-700 left-[15%]"></div>
-              <div className="absolute w-[50px] h-[6px] rounded-full bg-gray-800"></div>
-              <div className="absolute w-[10px] h-[10px] rounded-full bg-gray-700 right-[15%]"></div>
-            </div>
+          <style jsx>{`
+            .hide-scrollbar::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
+          <div className="relative">
+            {/* Phone frame image */}
+            <img 
+              src="/frame.webp" 
+              alt="Mobile Frame" 
+              className="w-full h-auto relative z-10"
+            />
+            
+            {/* Email content overlay */}
+            <div className="absolute inset-0 z-20" style={{
+              top: '4%',
+              left: '7%',
+              right: '5%',
+              bottom: '1.6%'
+            }}>
+              <div className="bg-white rounded-[50px] overflow-hidden h-full">
 
-            {/* Screen */}
-            <div className="relative bg-white rounded-[48px] overflow-hidden h-[650px]">
-              {/* Status Bar */}
-              <div className="sticky top-0 z-30 bg-white px-5 pt-8 pb-1 flex justify-between items-center">
-                <div className="text-black font-semibold">{timeString}</div>
-                <div className="flex items-center space-x-1">
+                {/* App Header */}
+                <div className="px-3 py-2 pt-4 border-b border-gray-100 flex items-center justify-between">
+                  <div className="flex items-center">
+                    <img src="/holycow-logo.png" alt="Holy Cow Logo" className="h-6 w-auto mr-2" />
+                    <span className="text-sm font-medium text-gray-800">
+                      Holy Cow
+                    </span>
+                  </div>
                   <div className="flex items-center space-x-1">
-                    <div className="h-3 w-3">
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2Z" stroke="black" strokeWidth="1.5" />
-                        <path d="M15 9C15 7.343 13.657 6 12 6C10.343 6 9 7.343 9 9C9 10.657 10.343 12 12 12C13.657 12 15 10.657 15 9Z" fill="black" />
-                        <path d="M5.5 19.5C7.5 17 9.5 15 12 15C14.5 15 16.5 17 18.5 19.5" stroke="black" strokeWidth="1.5" strokeLinecap="round" />
-                      </svg>
+                    <div className="p-1 bg-gray-100 rounded-full">
+                      <MailIcon className="h-3 w-3 text-gray-600" />
+                    </div>
+                    <div className="p-1 bg-gray-100 rounded-full">
+                      <BellIcon className="h-3 w-3 text-gray-600" />
                     </div>
                   </div>
-                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none">
-                    <path d="M3 7C3 5.89543 3.89543 5 5 5H19C20.1046 5 21 5.89543 21 7V17C21 18.1046 20.1046 19 19 19H5C3.89543 19 3 18.1046 3 17V7Z" stroke="black" strokeWidth="2" />
-                    <rect x="6" y="8" width="12" height="8" rx="1" fill="black" />
-                  </svg>
-                  <div className="font-semibold text-sm">100%</div>
-                </div>
-              </div>
-
-              {/* App Header */}
-              <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
-                <div className="flex items-center">
-                  <img src="/holycow-logo.png" alt="Holy Cow Logo" className="h-8 w-auto mr-2" />
-                  <span className="text-lg font-medium text-gray-800">
-                    Holy Cow
-                  </span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="p-1.5 bg-gray-100 rounded-full">
-                    <MailIcon className="h-4 w-4 text-gray-600" />
-                  </div>
-                  <div className="p-1.5 bg-gray-100 rounded-full">
-                    <BellIcon className="h-4 w-4 text-gray-600" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Email content - Professional newsletter style */}
-              <div className="overflow-y-auto h-[calc(100%-110px)]">
-                {/* Email Header with Logo */}
-                <div className="bg-[#2D2D2D] text-white px-6 py-4 text-center">
-                  <img src="/holycow-logo.png" alt="Holy Cow Logo" className="h-16 mx-auto mb-2" />
-                  <p className="text-xs uppercase tracking-widest mt-2">
-                    BURGER & BEER JOINT
-                  </p>
                 </div>
 
-                {/* Email Subject Line Banner */}
-                <div className="bg-[#E53935] text-white px-6 py-3 text-center">
-                  <p className="text-sm font-bold uppercase tracking-wide">
-                    ¡OFERTA ESPECIAL PARA TI!
-                  </p>
-                </div>
-
-                {/* Campaign Image */}
-                <div className="w-full">
-                  <img src={campaign.image} alt={campaign.name} className="w-full h-48 object-cover" />
-                </div>
-
-                {/* Main Content */}
-                <div className="px-6 py-6 bg-white">
-                  {/* Headline */}
-                  <h1 className="text-2xl font-bold text-[#2D2D2D] text-center mb-4">
-                    {campaign.emailSubject}
-                  </h1>
-
-                  {/* Body Copy */}
-                  <p className="text-gray-700 mb-6 text-center">
-                    {campaign.emailBody}
-                  </p>
-
-                  {/* CTA Button */}
-                  <div className="flex justify-center mb-6">
-                    <button className="bg-[#E53935] hover:bg-[#D32F2F] text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all">
-                      {campaign.cta}
-                    </button>
-                  </div>
-
-                  {/* Points Badge */}
-                  {campaign.pointsRequired && <div className="text-center mb-6">
-                      <span className="inline-block bg-[#FFECB3] text-[#E65100] px-4 py-2 rounded-full font-medium text-sm">
-                        {campaign.pointsRequired} puntos
-                      </span>
-                    </div>}
-
-                  {/* Divider */}
-                  <div className="border-t border-gray-200 my-6"></div>
-
-                  {/* Details Section */}
-                  <div className="bg-gray-50 p-4 rounded-lg mb-6">
-                    <h3 className="font-bold text-[#2D2D2D] text-sm mb-2">
-                      DETALLES DE LA PROMOCIÓN:
-                    </h3>
-                    <div className="flex items-center text-sm text-gray-600 mb-2">
-                      <CalendarIcon className="h-4 w-4 mr-2 text-[#E53935]" />
-                      <span>
-                        Válido hasta:{' '}
-                        {new Date(campaign.endDate).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <p className="text-xs text-gray-600 mt-2">
-                      <span className="font-medium">
-                        Términos y condiciones:
-                      </span>
-                      <br />
-                      {campaign.conditions}
+                {/* Email content - Professional newsletter style */}
+                <div 
+                  className="overflow-y-auto h-[calc(100%-50px)] hide-scrollbar" 
+                  style={{ 
+                    scrollbarWidth: 'none', 
+                    msOverflowStyle: 'none'
+                  }}
+                >
+                  {/* Email Header with Logo */}
+                  <div className="bg-[#2D2D2D] text-white px-4 py-3 text-center">
+                    <img src="/holycow-logo.png" alt="Holy Cow Logo" className="h-10 mx-auto mb-1" />
+                    <p className="text-[10px] uppercase tracking-widest mt-1">
+                      BURGER & BEER JOINT
                     </p>
                   </div>
 
-                  {/* Restaurant Info */}
-                  <div className="text-center text-xs text-gray-500">
-                    <p className="font-medium text-[#2D2D2D] mb-1">
-                      HOLY COW BURGER & BEER JOINT
+                  {/* Email Subject Line Banner */}
+                  <div className="bg-[#E53935] text-white px-4 py-2 text-center">
+                    <p className="text-[11px] font-bold uppercase tracking-wide">
+                      ¡OFERTA ESPECIAL PARA TI!
                     </p>
-                    <p>Av. Principal 123, Ciudad de México</p>
-                    <p>Tel: 555-123-4567</p>
                   </div>
-                </div>
 
-                {/* Footer */}
-                <div className="bg-[#2D2D2D] text-white px-6 py-4 text-center text-xs">
-                  <p className="mb-2">
-                    © 2023 Holy Cow. Todos los derechos reservados.
-                  </p>
-                  <p>
-                    Si no deseas recibir más correos, haz clic{' '}
-                    <a href="#" className="underline">
-                      aquí
-                    </a>{' '}
-                    para darte de baja.
-                  </p>
+                  {/* Campaign Image */}
+                  <div className="w-full">
+                    <img src={campaign.image} alt={campaign.name} className="w-full h-32 object-cover" />
+                  </div>
+
+                  {/* Main Content */}
+                  <div className="px-4 py-4 bg-white">
+                    {/* Headline */}
+                    <h1 className="text-sm font-bold text-[#2D2D2D] text-center mb-3">
+                      {campaign.emailSubject}
+                    </h1>
+
+                    {/* Body Copy */}
+                    <p className="text-gray-700 mb-4 text-center text-xs">
+                      {campaign.emailBody}
+                    </p>
+
+                    {/* Extended promotional content */}
+                    <div className="bg-gradient-to-r from-[#E53935] to-[#FF5722] text-white p-4 rounded-lg mb-4">
+                      <h2 className="text-xs font-bold mb-2 text-center">🎉 ¡Una experiencia única te espera!</h2>
+                      <p className="text-[10px] text-center leading-relaxed">
+                        En Holy Cow creemos que cada visita debe ser especial. Por eso hemos preparado esta promoción exclusiva 
+                        que combina sabor auténtico con la mejor atención. Nuestros chefs han seleccionado los ingredientes 
+                        más frescos para brindarte una experiencia gastronómica inolvidable.
+                      </p>
+                    </div>
+
+                    {/* CTA Buttons */}
+                    <div className="flex flex-col space-y-2 mb-4">
+                      <button className="bg-[#E53935] hover:bg-[#D32F2F] text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all text-xs mx-auto">
+                        {campaign.cta}
+                      </button>
+                      <button 
+                        onClick={() => {
+                          // Simulate redeem action
+                          alert('¡Promoción canjeada exitosamente! 🎉\nSe ha descontado ' + campaign.pointsRequired + ' puntos de tu cuenta Xquisito.');
+                        }}
+                        className="bg-[#FF9800] hover:bg-[#F57C00] text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all text-xs mx-auto flex items-center"
+                      >
+                        🎯 Canjear {campaign.pointsRequired} puntos
+                      </button>
+                    </div>
+
+                    {/* Points Badge */}
+                    {campaign.pointsRequired && <div className="text-center mb-4">
+                        <span className="inline-block bg-[#FFECB3] text-[#E65100] px-3 py-1 rounded-full font-medium text-[10px]">
+                          {campaign.pointsRequired} puntos
+                        </span>
+                      </div>}
+
+                    {/* Additional promotional information */}
+                    <div className="bg-[#FFF3E0] p-3 rounded-lg mb-4 border-l-4 border-[#E53935]">
+                      <h3 className="font-bold text-[#2D2D2D] text-[10px] mb-2">
+                        ✨ MÁS BENEFICIOS PARA TI:
+                      </h3>
+                      <ul className="text-[9px] text-gray-700 space-y-1">
+                        <li>• Ambiente familiar con música en vivo los fines de semana</li>
+                        <li>• Estacionamiento gratuito para clientes</li>
+                        <li>• WiFi de alta velocidad disponible</li>
+                        <li>• Área de juegos para los más pequeños</li>
+                        <li>• Terraza climatizada con vista panorámica</li>
+                        <li>• Servicio de delivery disponible</li>
+                      </ul>
+                    </div>
+
+                    {/* Menu highlights */}
+                    <div className="mb-4">
+                      <h3 className="font-bold text-[#2D2D2D] text-[10px] mb-2 text-center">
+                        🍔 NUESTROS PLATILLOS MÁS POPULARES:
+                      </h3>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="bg-gray-50 p-2 rounded text-center">
+                          <p className="text-[9px] font-medium">Holy Cow Classic</p>
+                          <p className="text-[8px] text-gray-600">Hamburguesa doble con queso</p>
+                        </div>
+                        <div className="bg-gray-50 p-2 rounded text-center">
+                          <p className="text-[9px] font-medium">BBQ Ribs</p>
+                          <p className="text-[8px] text-gray-600">Costillas BBQ premium</p>
+                        </div>
+                        <div className="bg-gray-50 p-2 rounded text-center">
+                          <p className="text-[9px] font-medium">Craft Beer</p>
+                          <p className="text-[8px] text-gray-600">Cerveza artesanal local</p>
+                        </div>
+                        <div className="bg-gray-50 p-2 rounded text-center">
+                          <p className="text-[9px] font-medium">Wings Combo</p>
+                          <p className="text-[8px] text-gray-600">Alitas con 4 salsas</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Customer testimonials */}
+                    <div className="bg-[#E8F5E8] p-3 rounded-lg mb-4">
+                      <h3 className="font-bold text-[#2D2D2D] text-[10px] mb-2 text-center">
+                        💬 LO QUE DICEN NUESTROS CLIENTES:
+                      </h3>
+                      <div className="space-y-2">
+                        <div className="bg-white p-2 rounded shadow-sm">
+                          <p className="text-[8px] text-gray-700 italic">"La mejor hamburguesa que he probado. El ambiente es increíble."</p>
+                          <p className="text-[7px] text-gray-500 mt-1">- María González ⭐⭐⭐⭐⭐</p>
+                        </div>
+                        <div className="bg-white p-2 rounded shadow-sm">
+                          <p className="text-[8px] text-gray-700 italic">"Excelente servicio y la cerveza artesanal está espectacular."</p>
+                          <p className="text-[7px] text-gray-500 mt-1">- Carlos Mendoza ⭐⭐⭐⭐⭐</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="border-t border-gray-200 my-4"></div>
+
+                    {/* Details Section */}
+                    <div className="bg-gray-50 p-3 rounded-lg mb-4">
+                      <h3 className="font-bold text-[#2D2D2D] text-[10px] mb-1">
+                        📋 DETALLES DE LA PROMOCIÓN:
+                      </h3>
+                      <div className="flex items-center text-[10px] text-gray-600 mb-1">
+                        <CalendarIcon className="h-3 w-3 mr-1 text-[#E53935]" />
+                        <span>
+                          Válido hasta:{' '}
+                          {new Date(campaign.endDate).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <p className="text-[9px] text-gray-600 mt-1">
+                        <span className="font-medium">
+                          Términos y condiciones:
+                        </span>
+                        <br />
+                        {campaign.conditions}
+                        <br /><br />
+                        • Válido únicamente en sucursal principal
+                        <br />
+                        • No aplica con otras promociones vigentes
+                        <br />
+                        • Promoción sujeta a disponibilidad
+                        <br />
+                        • Reservaciones recomendadas para grupos mayores a 6 personas
+                      </p>
+                    </div>
+
+                    {/* Operating hours */}
+                    <div className="bg-[#F5F5F5] p-3 rounded-lg mb-4">
+                      <h3 className="font-bold text-[#2D2D2D] text-[10px] mb-2 text-center">
+                        🕒 HORARIOS DE ATENCIÓN:
+                      </h3>
+                      <div className="text-[9px] text-gray-700 space-y-1">
+                        <div className="flex justify-between">
+                          <span>Lunes - Jueves:</span>
+                          <span>12:00 PM - 11:00 PM</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Viernes - Sábado:</span>
+                          <span>12:00 PM - 12:00 AM</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Domingo:</span>
+                          <span>12:00 PM - 10:00 PM</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Social media */}
+                    <div className="text-center mb-4">
+                      <h3 className="font-bold text-[#2D2D2D] text-[10px] mb-2">
+                        📱 SÍGUENOS EN REDES SOCIALES:
+                      </h3>
+                      <p className="text-[9px] text-gray-600 mb-1">
+                        @HolyCowMX | #HolyCowExperience
+                      </p>
+                      <p className="text-[8px] text-gray-500">
+                        Comparte tu experiencia y etiquétanos para aparecer en nuestras historias
+                      </p>
+                    </div>
+
+                    {/* Restaurant Info */}
+                    <div className="text-center text-[9px] text-gray-500">
+                      <p className="font-medium text-[#2D2D2D] mb-1">
+                        HOLY COW BURGER & BEER JOINT
+                      </p>
+                      <p>Av. Principal 123, Ciudad de México</p>
+                      <p>Tel: 555-123-4567</p>
+                      <p>WhatsApp: 555-987-6543</p>
+                      <p>Email: info@holycow.mx</p>
+                    </div>
+                  </div>
+
+                  {/* Footer */}
+                  <div className="bg-[#2D2D2D] text-white px-4 py-4 text-center text-[9px]">
+                    <p className="mb-2 font-medium">
+                      ¡Gracias por ser parte de la familia Holy Cow!
+                    </p>
+                    <p className="mb-2">
+                      © 2023 Holy Cow. Todos los derechos reservados.
+                    </p>
+                    <p className="text-[8px] text-gray-300">
+                      Si no deseas recibir más correos, haz clic{' '}
+                      <a href="#" className="underline text-white hover:text-gray-200">
+                        aquí
+                      </a>{' '}
+                      para darte de baja.
+                    </p>
+                    <p className="text-[8px] text-gray-400 mt-2">
+                      Este correo fue enviado desde una dirección de solo envío. 
+                      Para consultas, contáctanos en info@holycow.mx
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-
-            {/* Home indicator */}
-            <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-[30%] h-[5px] bg-gray-800 rounded-full"></div>
           </div>
         </div>
       </div>
@@ -519,57 +642,100 @@ const RewardsPricingModal = ({
   const plans = [{
     name: 'Básico',
     price: 'Gratis',
-    features: ['1 campaña activa por mes', 'Estadísticas básicas', 'Soporte por email']
+    features: ['1 campaña activa por mes', 'Estadísticas básicas', 'Soporte por email'],
+    gradient: currentPlan === 'Básico' ? 'from-green-400/20 to-green-600/20' : 'from-gray-400/20 to-gray-600/20',
+    borderColor: currentPlan === 'Básico' ? 'border-green-400/30' : 'border-gray-300/30'
   }, {
     name: 'Premium',
     price: '$15 USD',
-    features: ['Hasta 5 campañas por mes', 'Estadísticas avanzadas', 'Segmentación de clientes', 'Soporte prioritario']
+    features: ['Hasta 5 campañas por mes', 'Estadísticas avanzadas', 'Segmentación de clientes', 'Soporte prioritario'],
+    gradient: currentPlan === 'Premium' ? 'from-green-400/20 to-green-600/20' : 'from-gray-400/20 to-gray-600/20',
+    borderColor: currentPlan === 'Premium' ? 'border-green-400/30' : 'border-gray-300/30'
   }, {
     name: 'Ultra',
     price: '$30 USD',
-    features: ['Hasta 10 campañas por mes', 'Estadísticas en tiempo real', 'Segmentación avanzada', 'Soporte 24/7', 'API de integración']
+    features: ['Hasta 10 campañas por mes', 'Estadísticas en tiempo real', 'Segmentación avanzada', 'Soporte 24/7', 'API de integración'],
+    gradient: currentPlan === 'Ultra' ? 'from-green-400/20 to-green-600/20' : 'from-gray-400/20 to-gray-600/20',
+    borderColor: currentPlan === 'Ultra' ? 'border-green-400/30' : 'border-gray-300/30'
   }];
+  
   return <div className="fixed inset-0 overflow-y-auto z-50 flex items-center justify-center">
       <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-[2px]" onClick={onClose}></div>
-      <div className="relative bg-white rounded-2xl max-w-3xl w-full mx-auto p-6 shadow-2xl">
-        <button onClick={onClose} className="absolute top-3 right-3 text-gray-400 hover:text-gray-500 z-10 p-2 rounded-full hover:bg-gray-100 transition-colors">
-          <XIcon className="h-6 w-6" />
+      <div className="relative max-w-3xl w-full mx-4 p-4">
+        <button onClick={onClose} className="absolute -top-6 right-2 text-white hover:text-gray-300 z-10 p-2 rounded-full hover:bg-white/20 transition-all duration-200">
+          <XIcon className="h-5 w-5" />
         </button>
-        <div className="mb-6 text-center">
-          <h2 className="text-2xl font-semibold text-gray-900">
-            Planes de Gestión
-          </h2>
-          <p className="mt-2 text-sm text-gray-500">
-            Selecciona el plan que mejor se adapte a tus necesidades
-          </p>
-        </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 mb-6">
-          {plans.map(plan => <div key={plan.name} className={`bg-white rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${plan.name === currentPlan ? 'border-2 border-custom-green-600 bg-custom-green-100/30' : 'border border-gray-200 hover:border-custom-green-200'}`}>
-              <div className="p-5">
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  {plan.name}
-                </h3>
-                <p className="text-2xl font-bold text-custom-green-600 mb-4">
-                  {plan.price}
-                </p>
-                <ul className="space-y-2 mb-6">
-                  {plan.features.map((feature, index) => <li key={index} className="flex items-start">
-                      <span className="flex-shrink-0 h-5 w-5 text-custom-green-600">
-                        <svg viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                      </span>
-                      <span className="ml-2 text-sm text-gray-600">
-                        {feature}
-                      </span>
-                    </li>)}
-                </ul>
-                <button className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors ${plan.name === currentPlan ? 'bg-custom-green-600 text-white cursor-default' : 'bg-white border border-custom-green-600 text-custom-green-600 hover:bg-custom-green-50'}`} disabled={plan.name === currentPlan}>
-                  {plan.name === currentPlan ? 'Plan Actual' : 'Seleccionar Plan'}
-                </button>
+        
+        {/* Plans Grid */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {plans.map(plan => (
+            <div key={plan.name} className={`group relative`}>
+              {/* Glass morphism card */}
+              <div className={`relative bg-white/10 backdrop-blur-md rounded-xl p-4 border ${plan.borderColor} shadow-xl transition-all duration-300 transform hover:scale-105 hover:bg-white/15 ${plan.name === currentPlan ? 'ring-2 ring-white/50 bg-white/15' : ''} h-80`}>
+                
+                {/* Background gradient overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${plan.gradient} rounded-xl opacity-50`}></div>
+                
+                {/* Current plan badge */}
+                {plan.name === currentPlan && (
+                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-white text-custom-green-600 px-3 py-1 rounded-full text-xs font-medium shadow-lg">
+                      Plan Actual
+                    </span>
+                  </div>
+                )}
+
+                {/* Card content */}
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg font-bold text-white mb-1">
+                      {plan.name}
+                    </h3>
+                    <div className="text-2xl font-extrabold text-white mb-1">
+                      {plan.price}
+                    </div>
+                    {plan.price !== 'Gratis' && (
+                      <p className="text-white/70 text-xs">por mes</p>
+                    )}
+                  </div>
+
+                  {/* Features */}
+                  <ul className={`space-y-2 mb-4 flex-grow ${plan.price === 'Gratis' ? 'mt-4' : ''}`}>
+                    {plan.features.map((feature, index) => (
+                      <li key={index} className="flex items-start">
+                        <div className="flex-shrink-0 w-4 h-4 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center mt-0.5 mr-2">
+                          <svg className="w-2 h-2 text-white" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <span className="text-white/90 text-xs leading-relaxed">
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* CTA Button */}
+                  <button 
+                    className={`w-full py-2 px-4 rounded-lg text-xs font-semibold transition-all duration-300 mt-auto ${
+                      plan.name === currentPlan 
+                        ? 'bg-white/20 text-white cursor-default backdrop-blur-sm border border-white/30' 
+                        : 'bg-white text-gray-900 hover:bg-white/90 hover:shadow-lg transform hover:-translate-y-0.5'
+                    }`} 
+                    disabled={plan.name === currentPlan}
+                  >
+                    {plan.name === currentPlan ? 'Tu Plan Actual' : 'Seleccionar Plan'}
+                  </button>
+                </div>
+
+                {/* Decorative elements */}
+                <div className="absolute top-2 right-2 w-4 h-4 bg-white/10 rounded-full blur-sm"></div>
+                <div className="absolute bottom-2 left-2 w-3 h-3 bg-white/5 rounded-full blur-sm"></div>
               </div>
-            </div>)}
+            </div>
+          ))}
         </div>
+
       </div>
     </div>;
 };
@@ -703,13 +869,13 @@ const RewardsManagement = () => {
   return <div className="w-full bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-8 -mt-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Scala - Gestión de Recompensas
+              <h1 className="text-2xl font-semibold text-gray-900 mt-5 mb-2">
+                Gestión de Scala 
               </h1>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="text-sm text-gray-600">
                 Gestiona tus campañas de recompensas y fidelización
               </p>
             </div>
